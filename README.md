@@ -71,6 +71,22 @@ Da lì in poi ogni `git push` ricompila e aggiorna il gioco online da solo.
 > Nota: nel browser i salvataggi valgono per la sessione (il gioco usa comunque
 > i 3 slot). Su desktop restano su file in `saves/`.
 
+### Da smartphone / tablet
+
+Il sito è una **PWA**: aprendo il link dal telefono si può fare *Aggiungi alla
+schermata Home* (Android: menu ⋮ → Installa app; iPhone: Condividi → Aggiungi
+alla schermata Home) e il gioco parte a schermo intero con l'icona di Kaira.
+
+Sui dispositivi touch compaiono automaticamente i **tasti a schermo**
+(`core/touch.py`, attivi solo lì — su desktop non appaiono):
+- **croce direzionale** (sinistra): movimento e navigazione nei menu;
+- **A** (destra): conferma / interagisci / avanza dialogo;
+- **B**: menu di pausa / annulla.
+
+Consigliato l'orientamento orizzontale. Il livello PWA (manifest, icone,
+service worker senza cache) è in `web_extra/` e viene applicato al deploy da
+`tools/pwa_patch.py`.
+
 ## Comandi
 
 | Tasto | Azione |

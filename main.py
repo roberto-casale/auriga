@@ -22,6 +22,7 @@ IS_WEB = sys.platform == "emscripten"
 
 from core.audio import audio                      # noqa: E402
 from core.scene import SceneManager               # noqa: E402
+from core.touch import TouchOverlay               # noqa: E402
 from settings import FPS, GAME_TITLE, HEIGHT, WIDTH  # noqa: E402
 
 
@@ -36,6 +37,7 @@ class Game:
         self.state = None
         self.running = True
         self.auto_dir = None      # direzione forzata dai test automatici
+        self.touch = TouchOverlay(self)   # tasti a schermo (solo web touch)
         from scenes.title import TitleScene
         self.scenes.push(TitleScene(self))
 
@@ -49,6 +51,8 @@ class Game:
                     and not IS_WEB):
                 pygame.image.save(self.screen, "screenshot.png")
                 continue
+            if self.touch.handle_event(event):
+                continue
             scene = self.scenes.current
             if scene is not None:
                 scene.handle_event(event)
@@ -57,7 +61,9 @@ class Game:
             self.running = False
             return
         scene.update(dt)
+        self.touch.update(dt)
         self.scenes.draw(self.screen)
+        self.touch.draw(self.screen)
         pygame.display.flip()
 
     async def run(self):
