@@ -41,6 +41,9 @@ jobs:
           # GitHub Pages salta le cartelle che iniziano con "_": disattiva Jekyll
           touch _site/.nojekyll
 
+      - name: Applica il livello PWA (manifest, icone, service worker)
+        run: python tools/pwa_patch.py _site
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site
