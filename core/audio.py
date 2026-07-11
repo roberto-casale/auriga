@@ -19,9 +19,13 @@ class Audio:
         try:
             # In WASM il buffer piccolo va in underrun sul main thread
             # (crepitii/fruscii): sul web serve un buffer molto più largo.
-            buffer = 2048 if IS_WEB else 512
-            pygame.mixer.pre_init(44100, -16, 2, buffer)
-            pygame.mixer.init()
+            buffer = 4096 if IS_WEB else 512
+            # pygame.init() (chiamato prima in main.py) apre già il mixer coi
+            # default: pre_init a quel punto è ignorato. Per applicare davvero
+            # freq/buffer bisogna chiuderlo e riaprirlo con parametri espliciti.
+            if pygame.mixer.get_init():
+                pygame.mixer.quit()
+            pygame.mixer.init(44100, -16, 2, buffer)
             self.ok = True
         except pygame.error:
             self.ok = False
