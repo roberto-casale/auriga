@@ -1,9 +1,13 @@
 # Runtime del gioco
 pygame==2.6.1
 
+# Build web / browser (WebAssembly) — vedi README "Giocare nel browser"
+pygbag>=0.9
+
 # Solo per gli strumenti di build asset in tools/ (musica, ritagli)
 numpy>=1.26
 pillow>=10
+soundfile>=0.12    # conversione musica WAV -> OGG per il pacchetto web
 
 # Facoltativi (gia' presenti nel venv di test_py): torch + diffusers,
 # usati solo da tools/generate_portraits_sd.py per rigenerare i ritratti.

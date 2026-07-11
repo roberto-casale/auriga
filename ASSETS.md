@@ -39,10 +39,11 @@ Scaricati da https://github.com/google/fonts (cartella `ofl/`).
 - **Effetti (`assets/sfx/*.ogg`)** — copie rinominate dai pack CC0 di Kenney:
   *Interface Sounds*, *Sci-Fi Sounds*, *Digital Audio*, *Impact Sounds*
   (https://kenney.nl/assets/…). Nessuna modifica ai file.
-- **Musica (`assets/music/*.wav`)** — **8 tracce originali** composte nota per
+- **Musica (`assets/music/*.ogg`)** — **8 tracce originali** composte nota per
   nota e sintetizzate in numpy da `tools/gen_music.py` (piano additivo, pad,
   campanelli FM, percussioni sintetiche, riverbero Schroeder). Nessun sample
-  esterno: sono di questo progetto.
+  esterno: sono di questo progetto. Prodotte in WAV e poi convertite in OGG
+  Vorbis (via `soundfile`) per il web: 41 MB → ~3 MB senza perdita percepibile.
 
 ## Ritratti e scenari (`assets/portraits/`, `title.png`, `ending.png`)
 

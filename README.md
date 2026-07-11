@@ -11,7 +11,7 @@ della nave.
 - **Lingua:** italiano. **Durata:** ~40–60 minuti. **Difficoltà:** facile
   (checkpoint generosi, si può salvare ovunque dal menu).
 
-## Avvio
+## Avvio (desktop)
 
 Il gioco usa il venv della cartella padre `test_py/.venv` (pygame 2.6.1 già
 installato — vedi `requirements.txt`).
@@ -26,6 +26,50 @@ In alternativa, dalla cartella `test_py`:
 ```bash
 .venv/bin/python auriga/main.py
 ```
+
+## Giocare nel browser (WebAssembly)
+
+Il gioco gira anche in un browser, senza installare niente, grazie a
+[pygbag](https://pygame-web.github.io/) (compila in WebAssembly). Il ciclo di
+gioco in `main.py` è `async` proprio per questo.
+
+**Anteprima locale:**
+
+```bash
+cd auriga
+../.venv/bin/pip install pygbag        # una volta
+../.venv/bin/pygbag main.py            # compila e serve su http://localhost:8000
+```
+
+Apri **http://localhost:8000** nel browser (il primo avvio scarica il runtime;
+attendi ~30-60 s). Se il download del runtime dà errore SSL, anteponi
+`SSL_CERT_FILE=$(../.venv/bin/python -c 'import certifi; print(certifi.where())')`.
+
+**Solo build (cartella statica da pubblicare):**
+
+```bash
+../.venv/bin/pygbag --build main.py    # produce build/web/
+```
+
+### Pubblicare su GitHub Pages
+
+Il repository include una GitHub Action ([.github/workflows/deploy.yml](.github/workflows/deploy.yml))
+che compila e pubblica il gioco a ogni push. Una volta sola:
+
+1. Crea un repository su GitHub e collega questa cartella:
+   ```bash
+   cd auriga
+   git remote add origin https://github.com/<tuo-utente>/auriga.git
+   git push -u origin main
+   ```
+2. Su GitHub: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+3. Attendi che l'Action "Deploy AURIGA su GitHub Pages" finisca (tab **Actions**).
+4. Il gioco sarà su **https://<tuo-utente>.github.io/auriga/** — condividi il link!
+
+Da lì in poi ogni `git push` ricompila e aggiorna il gioco online da solo.
+
+> Nota: nel browser i salvataggi valgono per la sessione (il gioco usa comunque
+> i 3 slot). Su desktop restano su file in `saves/`.
 
 ## Comandi
 
