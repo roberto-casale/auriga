@@ -1,0 +1,69 @@
+"""Gestione musica ed effetti, tollerante all'assenza del mixer (test headless)."""
+import pygame
+
+from asset_loader import assets
+
+
+class Audio:
+    def __init__(self):
+        self.ok = False
+        self.music_vol = 0.7
+        self.sfx_vol = 0.8
+        self.current = None
+
+    def init(self):
+        try:
+            pygame.mixer.pre_init(44100, -16, 2, 512)
+            pygame.mixer.init()
+            self.ok = True
+        except pygame.error:
+            self.ok = False
+        assets.sfx_enabled = self.ok
+        return self.ok
+
+    # ------------------------------------------------------------ musica
+    def play_music(self, name, loops=-1, fade_ms=600):
+        if not self.ok or name == self.current:
+            return
+        path = assets.music_path(name)
+        if path is None:
+            self.current = name          # evita retry a ogni frame
+            return
+        try:
+            pygame.mixer.music.load(path)
+            pygame.mixer.music.set_volume(self.music_vol)
+            pygame.mixer.music.play(loops, fade_ms=fade_ms)
+            self.current = name
+        except pygame.error:
+            self.current = name
+
+    def stop_music(self, fade_ms=500):
+        if self.ok:
+            try:
+                pygame.mixer.music.fadeout(fade_ms)
+            except pygame.error:
+                pass
+        self.current = None
+
+    def set_music_vol(self, v):
+        self.music_vol = max(0.0, min(1.0, v))
+        if self.ok:
+            try:
+                pygame.mixer.music.set_volume(self.music_vol)
+            except pygame.error:
+                pass
+
+    # --------------------------------------------------------------- sfx
+    def sfx(self, name):
+        if not self.ok:
+            return
+        snd = assets.sfx(name)
+        if snd is not None:
+            snd.set_volume(self.sfx_vol)
+            snd.play()
+
+    def set_sfx_vol(self, v):
+        self.sfx_vol = max(0.0, min(1.0, v))
+
+
+audio = Audio()

@@ -1,0 +1,43 @@
+{
+  "layout": "3x4",
+  "order": [
+    "down",
+    "left",
+    "right",
+    "up"
+  ],
+  "sheets": {
+    "kaira": {
+      "fw": 16,
+      "fh": 18
+    },
+    "ilan": {
+      "fw": 16,
+      "fh": 18
+    },
+    "sette": {
+      "fw": 16,
+      "fh": 18
+    },
+    "naia": {
+      "fw": 16,
+      "fh": 18
+    },
+    "npc_ada": {
+      "fw": 16,
+      "fh": 18
+    },
+    "npc_bruno": {
+      "fw": 16,
+      "fh": 18
+    },
+    "npc_luce": {
+      "fw": 16,
+      "fh": 18
+    },
+    "custode": {
+      "fw": 16,
+      "fh": 18
+    }
+  }
+}

@@ -1,0 +1,17 @@
+# Build di pygbag
+/build/
+/dist/
+
+# Salvataggi locali e screenshot
+/saves/*.json
+/screenshot.png
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# macOS / editor
+.DS_Store
+.vscode/
