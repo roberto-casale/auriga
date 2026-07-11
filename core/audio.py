@@ -1,7 +1,11 @@
 """Gestione musica ed effetti, tollerante all'assenza del mixer (test headless)."""
+import sys
+
 import pygame
 
 from asset_loader import assets
+
+IS_WEB = sys.platform == "emscripten"
 
 
 class Audio:
@@ -30,9 +34,17 @@ class Audio:
             self.current = name          # evita retry a ogni frame
             return
         try:
+            # In WASM (pygbag) music.load() con un'altra traccia ancora in
+            # riproduzione (anche in fadeout) blocca il main thread per
+            # sempre: fermare e scaricare SEMPRE prima di caricare.
+            pygame.mixer.music.stop()
+            try:
+                pygame.mixer.music.unload()
+            except (pygame.error, AttributeError):
+                pass
             pygame.mixer.music.load(path)
             pygame.mixer.music.set_volume(self.music_vol)
-            pygame.mixer.music.play(loops, fade_ms=fade_ms)
+            pygame.mixer.music.play(loops, fade_ms=0 if IS_WEB else fade_ms)
             self.current = name
         except pygame.error:
             self.current = name
@@ -40,7 +52,10 @@ class Audio:
     def stop_music(self, fade_ms=500):
         if self.ok:
             try:
-                pygame.mixer.music.fadeout(fade_ms)
+                if IS_WEB:
+                    pygame.mixer.music.stop()     # niente fadeout in WASM
+                else:
+                    pygame.mixer.music.fadeout(fade_ms)
             except pygame.error:
                 pass
         self.current = None
