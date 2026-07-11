@@ -17,7 +17,10 @@ class Audio:
 
     def init(self):
         try:
-            pygame.mixer.pre_init(44100, -16, 2, 512)
+            # In WASM il buffer piccolo va in underrun sul main thread
+            # (crepitii/fruscii): sul web serve un buffer molto più largo.
+            buffer = 2048 if IS_WEB else 512
+            pygame.mixer.pre_init(44100, -16, 2, buffer)
             pygame.mixer.init()
             self.ok = True
         except pygame.error:
