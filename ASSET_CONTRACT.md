@@ -1,6 +1,9 @@
-# CONTRATTO ASSET — AURIGA
+# Contratto asset — AURIGA (documento interno di build)
 
-Questo file definisce ESATTAMENTE i path e i formati che `asset_loader.py` si aspetta.
+> Documento tecnico usato durante la produzione degli asset: definisce
+> ESATTAMENTE i path e i formati che `asset_loader.py` si aspetta. Non serve
+> per giocare; le fonti e le licenze degli asset sono in [ASSETS.md](ASSETS.md).
+
 Chi produce gli asset deve rispettarlo alla lettera. Radice: `auriga/assets/`.
 
 Regole generali:
